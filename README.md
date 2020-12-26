@@ -1,5 +1,5 @@
-# game-inventory
-Game inventory
+# Game Inventory
+Examination project in a 7.5 credits course - Object-Oriented Programming (in Java).
 
 ## User guide
 
