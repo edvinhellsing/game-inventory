@@ -8,18 +8,24 @@ package foo; // Package named 'foo'.
 import java.util.Scanner; // Import of scanner class from the Java API.
 import java.io.*; // Import all the classes of io package.
 import java.util.HashMap; // Import of Hashmap for storing information.
-import java.util.*; // 
+import java.util.*; // Import everything from java util.
 
+/**
+* GameInventory class has the hashmap which holds all items and its parameters, the method for add, read, update and delete items. It has the 'askString', 'askInt' and 'deleteInt' aswell.
+*/
 public class GameInventory {
 
    private HashMap<String, Item> gameInventory;
 
+   /**
+   * GameInventory constructor, new hashmap with string and item to hold items and its parameters.
+   */
    public GameInventory() {
       this.gameInventory = new HashMap<String, Item>();
    }
 
    /**
-   * Add item
+   * addItem method to add items.
    */
    public void addItem() {
       System.out.println("So you want to add an item? Fill in the form below.");
@@ -62,7 +68,7 @@ public class GameInventory {
    }
 
    /**
-   * Read item
+   * readItem method to read items.
    */
    public void readItem() {
       System.out.println("So you want to read about an item?");
@@ -73,7 +79,7 @@ public class GameInventory {
       // Check if the entered name exsits in the hashmap, present information about it if it does.
       if (gameInventory.containsKey(name)) {
          Item item = this.gameInventory.get(name);
-         System.out.println("Information about " + name + " presented below:");
+         System.out.println("Information about '" + name + "' presented below:");
          System.out.println("Item name: " + item.getName());
          System.out.println("Item description: " + item.getDesc());
          System.out.println("Item year: " + item.getYear());
@@ -83,15 +89,15 @@ public class GameInventory {
       
       // If no information about the entered name, print this message.
       else {
-         System.out.println("It seems like there's no information available about '" + name + "'. You'll be directed to the menu.");
+         System.out.println("It seems like there's no information available about '" + name + "'." + toMenuMessage);
       }
    }
 
    /**
-   * Update item
+   * updateItem method to update items.
    */
    public void updateItem() {
-      System.out.println("So you want to update an item? When you' done, press S to save, or press Q to quit.");
+      System.out.println("So you want to update an item? When you're done, press S to save, or press Q to quit.");
 
       // System.out.println("Updating item");
       String name = askString("name");
@@ -106,7 +112,6 @@ public class GameInventory {
          boolean tempLoaned = item.getCurrentlyLoaned();
 
          boolean shouldLoop = true;
-         boolean shouldSave = false;
 
          while (shouldLoop) {
             System.out.println("Current information about '" + name + "' presented below:");
@@ -155,14 +160,12 @@ public class GameInventory {
                case "s":
                case "Save":
                case "save": {
-                  if (shouldSave = true) {
-                     item.setDesc(tempDesc);
-                     item.setReleaseYear(tempYear);
-                     item.setCond(tempCond);
-                     item.setCurrentlyLoaned(tempLoaned);
-                     shouldLoop = false;
-                     System.out.println("The information has been saved.");
-                  }
+                  item.setDesc(tempDesc);
+                  item.setReleaseYear(tempYear);
+                  item.setCond(tempCond);
+                  item.setCurrentlyLoaned(tempLoaned);
+                  shouldLoop = false;
+                  System.out.println("The information has been saved.");
                }
                break;
                case "Q":
@@ -174,27 +177,24 @@ public class GameInventory {
                }
                default:
                shouldLoop = false;
-               shouldSave = false;
             }
          }
          System.out.println("Information about '" + name + "' presented below:");
-
          System.out.println("Item description: " + item.getDesc());
          System.out.println("Item year: " + item.getYear());
          System.out.println("Item condition: " + item.getCond());
          System.out.println("Item currently loaned: " + item.getCurrentlyLoaned());
 
-         System.out.println("You'll be directed to the menu.");
+         System.out.println(toMenuMessage);
       }
       // If no information about the entered name, print this message.
       else {
-         System.out.println("It seems like there's no information available about '" + name + "'. You'll be directed to the menu.");
+         System.out.println("It seems like there's no information available about '" + name + "'." + toMenuMessage);
       }
-
    }
 
    /**
-   * Delete item
+   * deleteItem method to delete items.
    */
    public void deleteItem() {
       System.out.println("So you want to delete about an item?");
@@ -205,7 +205,7 @@ public class GameInventory {
       // Check if the entered name exsits in the hashmap, present information about it if it does.
       if (gameInventory.containsKey(name)) {
          Item item = this.gameInventory.get(name);
-         System.out.println("The item " + name + " contains the informtaion below:");
+         System.out.println("The item '" + name + "' contains the informtaion below:");
          System.out.println("Item name: " + item.getName());
          System.out.println("Item description: " + item.getDesc());
          System.out.println("Item year: " + item.getYear());
@@ -213,27 +213,33 @@ public class GameInventory {
          System.out.println("Item currently loaned: " + item.getCurrentlyLoaned());
 
          // Double check if the user wants to remaove the entered item.
-         int intDeleteItem = deleteInt("Do you like to delete " + name + " and all its information? Enter 0 for no, 1 for yes. (This action cannot be undone): ", 0, 1);
+         int intDeleteItem = deleteInt("Do you like to delete '" + name + "' and all its information? Enter 0 for no, 1 for yes. (This action cannot be undone): ", 0, 1);
 
          // If not, print message.
          if (intDeleteItem == 0) {
-            System.out.println("The item " + name + " wasn't deleted from your Game Inventory.");
+            System.out.println("The item '" + name + "' wasn't deleted from your Retro Games Inventory.");
          }
             // If else (yes), delete item from hashmap, i.e. inventory and print message.
          else {
             gameInventory.remove(name);
-            System.out.println("The item " + name + " has been deleted.");
+            System.out.println("The item '" + name + "' has been deleted.");
          }
       }
       
       // If no information about the entered name, print this message.
       else {
-         System.out.println("It seems like there's no item named '" + name + "'. You'll be directed to the menu.");
+         System.out.println("It seems like there's no item named '" + name + "'." + toMenuMessage);
       }
    }
 
+   String toMenuMessage = "You'll be directed to the menu.";
+
    /**
-   * askString
+   * askString method to  ask quesitions with strings as answer.
+   * Create a Scanner object to read keyboard input regarding strings, and get the user's input. Input validation included.
+   * @param what which is used to make the program a bit more flexible since it's possible to customize the string a bit where it's used.
+   * @return str entered by user in upper cases (name, description, menu choice).
+   * @exception e for Scanner, and a catch of exception.
    */
    private String askString(String what) {
       Scanner keyboard = new Scanner(System.in);
@@ -256,12 +262,17 @@ public class GameInventory {
       if (what.equals("name")) {
          str = str.toUpperCase();
       }
-      
       return str;
    }
 
    /**
-   * askInt
+   * askInt method to ask quesitions with integers as answer.
+   * Create a Scanner object to read keyboard input regarding integers, and get the user's input. Input validation included.
+   * @param what which is defined where it's used.
+   * @param smallest to make the program a bit more flexible since it's possible to customize the values of the int 'smallest' where it's used.
+   * @param largest to make the program a bit more flexible since it's possible to customize the values of the int 'largest' where it's used.
+   * @return userInt entered by user (year, condition, loaned status).
+   * @exception e for Scanner, and a catch of exception.
    */
    private int askInt(String what, int smallest, int largest) {
       Scanner keyboard = new Scanner(System.in);
@@ -284,7 +295,13 @@ public class GameInventory {
    }
 
    /**
-   * deleteInt
+   * deleteInt method to ask validation quesitions with integers as answers before deleting items.
+   * Create a Scanner object to read keyboard input regarding delete of integers, and get the user's input. Input validation included.
+   * @param what which is defined where it's used.
+   * @param smallest which is defined where it's used.
+   * @param largest which is defined where it's used.
+   * @return userInt entered in deleteInt (validation question when about to delete an item).
+   * @exception e for Scanner, and a catch of exception.
    */
    private int deleteInt(String what, int smallest, int largest) {
       Scanner keyboard = new Scanner(System.in);
