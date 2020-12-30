@@ -1,5 +1,5 @@
 # Retro Games Inventory
-Examination project in a 7.5 credits course - Object-Oriented Programming (in Java).
+Examination project in Object oriented programming course.
 
 ## User guide
 
