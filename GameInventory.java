@@ -9,6 +9,7 @@ import java.util.Scanner; // Import of scanner class from the Java API.
 import java.io.*; // Import all the classes of io package.
 import java.util.HashMap; // Import of Hashmap for storing information.
 import java.util.*; // Import everything from java util.
+import java.util.concurrent.atomic.*; // Import functions from atomic in java util.
 
 /**
 * GameInventory class has the hashmap which holds all items and its parameters, the method for add, read, update and delete items. It has the 'askString', 'askInt' and 'deleteInt' aswell.
@@ -22,6 +23,12 @@ public class GameInventory {
    */
    public GameInventory() {
       this.gameInventory = new HashMap<String, Item>();
+
+      Item item = new Item("JOWA", "king", 1993, Condition.MINT, true);
+      this.gameInventory.put("JOWA", item);
+
+      Item item1 = new Item("EDHE", "queen", 1893, Condition.POOR, false);
+      this.gameInventory.put("EDHE", item1);
    }
 
    /**
@@ -71,7 +78,14 @@ public class GameInventory {
    * readItem method to read items.
    */
    public void readItem() {
-      System.out.println("So you want to read about an item?");
+      System.out.println("So you want to read about an item? Here's a list of all items that currently are saved in the database:");
+
+      // For each to show all items in the database
+      AtomicInteger i = new AtomicInteger(1);
+      this.gameInventory.forEach((key, item) -> {
+         int counter = i.getAndIncrement();
+         System.out.println(counter + " " + key);
+      });
 
       // System.out.println("Reading item");
       String name = askString("name");

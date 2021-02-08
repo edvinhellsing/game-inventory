@@ -100,6 +100,14 @@ public class Item {
       this.itemCurrentlyLoaned = currentlyLoaned;
    }
 
+   /**
+    * Overrides the default toString object's name with itemName as a string
+    * @return itemName
+    */
+   public String toString() {
+      return this.itemName;
+   }
+
 }
 
 // Conditions
