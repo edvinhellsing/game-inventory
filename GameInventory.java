@@ -8,6 +8,7 @@ package foo; // Package named 'foo'.
 import java.util.Scanner; // Import of scanner class from the Java API.
 import java.io.*; // Import all the classes of io package.
 import java.util.HashMap; // Import of Hashmap for storing information.
+import java.util.LinkedHashMap; // Import of LinkedHashmap for storing information.
 import java.util.*; // Import everything from java util.
 import java.util.concurrent.atomic.*; // Import functions from atomic in java util.
 
@@ -16,19 +17,20 @@ import java.util.concurrent.atomic.*; // Import functions from atomic in java ut
 */
 public class GameInventory {
 
-   private HashMap<String, Item> gameInventory;
+   private LinkedHashMap<String, Item> gameInventory;
 
    /**
    * GameInventory constructor, new hashmap with string and item to hold items and its parameters.
    */
    public GameInventory() {
-      this.gameInventory = new HashMap<String, Item>();
+      this.gameInventory = new LinkedHashMap<String, Item>();
 
-      Item item = new Item("JOWA", "king", 1993, Condition.MINT, true);
+      // Two items from start
+      /*Item item = new Item("JOWA", "king", 1993, Condition.MINT, true);
       this.gameInventory.put("JOWA", item);
 
       Item item1 = new Item("EDHE", "queen", 1893, Condition.POOR, false);
-      this.gameInventory.put("EDHE", item1);
+      this.gameInventory.put("EDHE", item1);*/
    }
 
    /**
@@ -80,15 +82,37 @@ public class GameInventory {
    public void readItem() {
       System.out.println("So you want to read about an item? Here's a list of all items that currently are saved in the database:");
 
-      // For each to show all items in the database
-      AtomicInteger i = new AtomicInteger(1);
+      // Atomic to show all items in the database
+      /* AtomicInteger i = new AtomicInteger(1);
       this.gameInventory.forEach((key, item) -> {
          int counter = i.getAndIncrement();
-         System.out.println(counter + " " + key);
-      });
+         System.out.println(counter + ". " + key);
+      }); */
 
-      // System.out.println("Reading item");
-      String name = askString("name");
+      // For each to show all items in the database
+      int i = 1;
+      for (Map.Entry<String, Item> entry : this.gameInventory.entrySet()) {
+         System.out.println(i + ". " + entry.getKey());
+         i++;
+      }
+
+      int size = this.gameInventory.size();
+      if (size == 0) {
+         System.out.println("No items have been saved.");
+         return;
+      }
+   
+      int number = askInt("number", 1, size);
+      String name = "";
+
+      int j = 1;
+      for (Map.Entry<String, Item> entry : this.gameInventory.entrySet()) {
+         if (j == number) {
+            name = entry.getKey();
+            break;
+         }
+         j++;
+      }
 
       // Check if the entered name exsits in the hashmap, present information about it if it does.
       if (gameInventory.containsKey(name)) {
@@ -103,7 +127,7 @@ public class GameInventory {
       
       // If no information about the entered name, print this message.
       else {
-         System.out.println("It seems like there's no information available about '" + name + "'." + toMenuMessage);
+         System.out.println("It seems like there's no information available about '" + name + "'. " + toMenuMessage);
       }
    }
 
